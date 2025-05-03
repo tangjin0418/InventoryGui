@@ -32,6 +32,9 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Function;
 
+import static de.themoep.inventorygui.VersionCompatibility.getBottomInventory;
+import static de.themoep.inventorygui.VersionCompatibility.getTopInventory;
+
 /**
  * This element is used to access an {@link Inventory}. The slots in the inventory are selected
  * by searching through the whole gui the element is in and getting the number of the spot
@@ -100,7 +103,7 @@ public class GuiStorageElement extends GuiElement {
                 return true;
             }
             ItemStack storageItem = getStorageItem(click.getWhoClicked(), click.getSlot());
-            ItemStack slotItem = click.getRawEvent().getView().getTopInventory().getItem(click.getSlot());
+            ItemStack slotItem = getTopInventory(click.getRawEvent().getView()).getItem(click.getSlot());
 
             if (click.getType() == ClickType.RIGHT && (
                     click.getCursor() != null && click.getCursor().getType().getKey().getKey().contains("bundle")
@@ -130,7 +133,7 @@ public class GuiStorageElement extends GuiElement {
                 case CLONE_STACK:
                     return !validateItemTake(click.getSlot(), slotItem);
                 case MOVE_TO_OTHER_INVENTORY:
-                    if (event.getRawSlot() < event.getView().getTopInventory().getSize()) {
+                    if (event.getRawSlot() < getTopInventory(event.getView()).getSize()) {
                         // Moved from storage
 
                         if (!validateItemTake(click.getSlot(), slotItem)) {
@@ -138,7 +141,7 @@ public class GuiStorageElement extends GuiElement {
                         }
 
                         // Check if there is actually space (more advanced checks can unfortunately not be supported right now)
-                        if (click.getRawEvent().getView().getBottomInventory().firstEmpty() == -1) {
+                        if (getBottomInventory(click.getRawEvent().getView()).firstEmpty() == -1) {
                             // No empty slot, cancel
                             return true;
                         }
@@ -147,7 +150,7 @@ public class GuiStorageElement extends GuiElement {
                         // Moved to storage
 
                         // Check if there is actually space (more advanced checks can unfortunately not be supported right now)
-                        if (event.getView().getTopInventory().firstEmpty() == -1) {
+                        if (getTopInventory(event.getView()).firstEmpty() == -1) {
                             // No empty slot, cancel
                             return true;
                         }
@@ -166,7 +169,7 @@ public class GuiStorageElement extends GuiElement {
                     if (button < 0) {
                         return true;
                     }
-                    ItemStack hotbarItem = event.getView().getBottomInventory().getItem(button);
+                    ItemStack hotbarItem = getBottomInventory(event.getView()).getItem(button);
                     if (hotbarItem != null) {
                         movedItem = hotbarItem.clone();
                     }
