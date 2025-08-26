@@ -269,7 +269,7 @@ public class GuiStorageElement extends GuiElement {
      * @param slot      The slot in the GUI
      * @return      The index of the storage slot or <code>-1</code> if it's outside the storage
      */
-    private int getStorageSlot(HumanEntity player, int slot) {
+    protected int getStorageSlot(HumanEntity player, int slot) {
         int index = invSlot != -1 ? invSlot : getSlotIndex(slot, gui.getPageNumber(player));
         if (index < 0 || index >= storage.getSize()) {
             return -1;
