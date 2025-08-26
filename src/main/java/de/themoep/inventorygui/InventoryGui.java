@@ -134,28 +134,28 @@ public class InventoryGui implements Listener {
         Map<String, String> clickSounds = new LinkedHashMap<>();
         clickSounds.put("UI_BUTTON_CLICK", "ui.button.click");
         clickSounds.put("CLICK", "random.click");
-        for (Map.Entry<String, String> entry : clickSounds.entrySet()) {
-            try {
-                // Try to get sound enum to see if it exists
-                Sound.valueOf(entry.getKey().toUpperCase(Locale.ROOT));
-                // If it does use the sound key
-                clickSound = entry.getValue();
-                break;
-            } catch (IllegalArgumentException | IncompatibleClassChangeError ignored) {}
-        }
-        if (clickSound == null) {
-            try {
-                Sound[] sounds = (Sound[]) Sound.class.getDeclaredMethod("values").invoke(null);
-                for (Sound sound : sounds) {
-                    if (sound.name().contains("CLICK")) {
-                        // Convert to sound key under the assumption that the enum name is just using underscores in the place of dots
-                        clickSound = sound.name().toLowerCase(Locale.ROOT).replace('_', '.');
-                        break;
-                    }
-                }
-            } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException ignored) {
-            }
-        }
+//        for (Map.Entry<String, String> entry : clickSounds.entrySet()) {
+//            try {
+//                // Try to get sound enum to see if it exists
+//                Sound.valueOf(entry.getKey().toUpperCase(Locale.ROOT));
+//                // If it does use the sound key
+//                clickSound = entry.getValue();
+//                break;
+//            } catch (IllegalArgumentException | IncompatibleClassChangeError ignored) {}
+//        }
+//        if (clickSound == null) {
+//            try {
+//                Sound[] sounds = (Sound[]) Sound.class.getDeclaredMethod("values").invoke(null);
+//                for (Sound sound : sounds) {
+//                    if (sound.name().contains("CLICK")) {
+//                        // Convert to sound key under the assumption that the enum name is just using underscores in the place of dots
+//                        clickSound = sound.name().toLowerCase(Locale.ROOT).replace('_', '.');
+//                        break;
+//                    }
+//                }
+//            } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException ignored) {
+//            }
+//        }
         if (clickSound == null) {
             clickSound = "ui.button.click";
         }
